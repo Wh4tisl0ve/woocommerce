@@ -1,3 +1,6 @@
+/*Revision of the official code.
+In it, if you remove the goods in the basket and the amount becomes less than the specified amount, the gift is not removed.*/ 
+
 add_action( 'template_redirect', 'add_product_to_cart' );
 function add_product_to_cart() {
   if ( ! is_admin() ) {
