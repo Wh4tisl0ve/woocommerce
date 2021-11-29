@@ -1,0 +1,28 @@
+add_action( 'template_redirect', 'add_product_to_cart' );
+function add_product_to_cart() {
+  if ( ! is_admin() ) {
+    global $woocommerce;
+    $product_id = 4548; //id
+    $found = false;
+    $cart_total = 1000; //cart total
+    $is_gift_in_cart = $woocommerce->cart->find_product_in_cart( $woocommerce->cart->generate_cart_id( $product_id ) );// проверка есть ли подарок в корзине
+    if( $woocommerce->cart->total >= $cart_total ) {
+      if ( sizeof( $woocommerce->cart->get_cart() ) > 0 ) {
+        foreach ( $woocommerce->cart->get_cart() as $cart_item_key => $values ) {
+          $_product = $values['data'];
+          if ( $_product->get_id() == $product_id )
+            $found = true;
+        }
+        if ( ! $found )
+          $woocommerce->cart->add_to_cart( $product_id );
+      } else {
+        $woocommerce->cart->add_to_cart( $product_id );
+      }
+      }
+    		if($woocommerce->cart->total < $cart_total){//if cart total more
+        if($is_gift_in_cart){
+          $woocommerce->cart->remove_cart_item( $woocommerce->cart->generate_cart_id( $product_id ) );//remove gift($product_id)
+        }
+      }
+      }
+  }
